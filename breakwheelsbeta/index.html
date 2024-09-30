@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Break Wheels</title>
+    <style>
+        html, body {
+            height: 100%;
+        }
+        .cover-container {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js";
+
+    // Configurações do Firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyC-njGkDDM4XsRXyPisvHbk9OFFdzrUK4s",
+        authDomain: "breakwheelstesters.firebaseapp.com",
+        projectId: "breakwheelstesters",
+        storageBucket: "breakwheelstesters.appspot.com",
+        messagingSenderId: "490265267671",
+        appId: "1:490265267671:web:6d7c3b1a6274011508cf92",
+        measurementId: "G-D4YYV0S3SD"
+    };
+
+    // Inicializar Firebase e Firestore
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Função para enviar dados do formulário para Firestore
+    async function saveBetaTester(name, email) {
+    try {
+        const docRef = await addDoc(collection(db, "betatesters"), {
+        name: name,
+        email: email,
+        timestamp: new Date()  // Adicionar um timestamp
+        });
+        console.log("Documento adicionado com ID: ", docRef.id);
+    } catch (e) {
+        console.error("Erro ao adicionar documento: ", e);
+    }
+    }
+  
+    document.querySelector('form').addEventListener('submit', async function (e) {
+      e.preventDefault(); // Previne o comportamento padrão do formulário
+  
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+  
+      // Envia os dados para o Firestore
+      await saveBetaTester(name, email);
+  
+      // Mostra uma mensagem de sucesso ou redireciona o usuário
+      alert('Inscrição realizada com sucesso!');
+      document.querySelector('form').reset();  // Limpa o formulário
+    });
+</script>
+<body class="text-bg-dark">
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column justify-content-center align-items-center">
+        <div class="card text-bg-dark border border-primary" style="width: 25rem;">
+            <div class="card-img-top">
+                <div id="carouselExample" class="carousel slide">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="Images/capa1.png" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="Images/img0.png" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="Images/img1.png" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="Images/img2.png" class="d-block w-100">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="Images/img3.png" class="d-block w-100">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">Break Wheels Beta</h5>
+                <p class="card-text text-center">Sign up to become one of the beta testers!</p>
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Your name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Your e-mail" required>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">Sign-up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>
